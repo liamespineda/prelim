@@ -1,146 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dayne Web</title>
-    <style>
-        
-        body {
-            font-family: 'Courier New', Courier, monospace; 
-            margin: 0;
-            padding: 0;
-            background-image: url('https://i.pinimg.com/236x/d3/e3/1e/d3e31ece123cbce83113444684cb438d.jpg'); 
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: #FFFFFF; 
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5); 
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); 
-            text-align: center; 
-        }
-        header {
-            background-color: rgba(0, 0, 0, 0.7); 
-            color: #FFFFFF; 
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px 10px 0 0; 
-            position: relative; 
-        }
-        .logo {
-            position: absolute; 
-            top: 20px; 
-            left: 20px; 
-            max-width: 150px; 
-            height: auto;
-            border-radius: 10px; 
-        }
-        footer {
-            background-color: rgba(0, 0, 0, 0.7); 
-            color: #FFFFFF; 
-            padding: 20px;
-            text-align: center;
-            border-radius: 0 0 10px 10px; 
-        }
-        .intro-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        img {
-            max-width: 40%; 
-            border-radius: 10px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-        }
-        .highlighted-name {
-            color: #f15b2a; 
-        }
-        .highlighted-name2 {
-            color: green;
+  <title>SLCV Student Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://alchetron.com/cdn/st-louis-college-of-valenzuela-d560d4ef-9424-4652-8bf3-044af545fc6-resize-750.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      backdrop-filter: blur(5px);
+      overflow: auto;
+    }
 
-        }
-        .link {
-            color: #FFFFFF; 
-            text-decoration: none; 
-            display: inline-block;
-            background-color: #333; 
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace; 
-        }
-        .link:hover {
-            background-color: #555; 
-        }
-        
-        .social-buttons {
-            text-align: center;
-            margin-top: 20px;
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      max-height: 90vh;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
 
-    
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #1b5e20;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"],
+    input[type="button"] {
+      width: 48%;
+      padding: 10px;
+      margin: 10px 1%;
+      border: none;
+      border-radius: 5px;
+      background-color: #2e7d32;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover,
+    input[type="button"]:hover {
+      background-color: #1b5e20;
+    }
+
+    .error-message, .success-message {
+      text-align: center;
+    }
+
+    .success-message {
+      color: green;
+    }
+
+    .error-message {
+      color: red;
+    }
+
+    .form-container {
+      margin-bottom: 20px;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .input-group input[type="reset"] {
+    width: 48%;
+    padding: 10px;
+    margin: 10px 1%;
+    border: none;
+    border-radius: 5px;
+    background-color: #2e7d32;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+   }
+
+.input-group input[type="reset"]:hover {
+  background-color: #1b5e20;
+  }
+
+  </style>
+  <script>
+    function clearForm(formId) {
+      document.getElementById(formId).reset();
+      document.getElementById('registration-error').textContent = '';
+      document.getElementById('login-error').textContent = '';
+    }
+
+    function showMessage(messageId, message, isError = false) {
+      const messageElement = document.getElementById(messageId);
+      messageElement.textContent = message;
+      messageElement.classList.toggle('error-message', isError);
+      messageElement.classList.toggle('success-message', !isError);
+    }
+
+    function handleFormSubmit(event, formId, messageId) {
+      event.preventDefault();
+      const form = document.getElementById(formId);
+      if (formId === 'registration-form') {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        if (password !== confirmPassword) {
+          showMessage(messageId, 'Passwords do not match!', true);
+          return;
         }
-    </style>
+      }
+      if (form.checkValidity()) {
+        showMessage(messageId, 'Successfully submitted!', false);
+        form.reset();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('registration-form').addEventListener('submit', function(event) {
+        handleFormSubmit(event, 'registration-form', 'registration-error');
+      });
+
+      document.getElementById('login-form').addEventListener('submit', function(event) {
+        handleFormSubmit(event, 'login-form', 'login-error');
+      });
+    });
+  </script>
 </head>
 <body>
-    <header>
-        <a href="index.html">
-            <img class="logo" src="https://i.pinimg.com/236x/ef/f9/a5/eff9a5958bdc939313397d98db795619.jpg" alt="Your Logo">
-        </a>
-        <div class="container">
-            <h1>Hi, This is Dayne's Website! 😀 </h1>
+  <div class="container">
+    <div class="form-container">
+      <h2>St. Louis College Of Valenzuela Student Registration Form</h2>
+      <form action="login.php" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required> 
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="mobile-number">Mobile Number:</label>
+        <input type="tel" id="mobile-number" name="mobile-number" pattern="[0-9]{11}" required>
+
+        <label for="preferred-course">Preferred Course:</label>
+        <select id="preferred-course" name="preferred-course">
+          <option value="BSHM">BS Hotel Management</option>
+          <option value="BSCS">BS Computer Science</option>
+          <option value="BSHRM">BS Human Resource Management</option>
+          <option value="BSMM">BS Marketing Management</option>
+          <option value="BSOA">BS Office Administration</option>
+          <option value="ACT">ACT</option>
+          <option value="AIS">AIS</option>
+        </select>
+
+        <label for="location">Location/City:</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="year-level">Year Level:</label>
+        <select id="year-level" name="year-level">
+          <option value="1ST">1st Year</option>
+          <option value="2ND">2nd Year</option>
+          <option value="3RD">3rd Year</option>
+          <option value="4TH">4th Year</option>
+        </select>
+
+        <div class="button-group input-group">
+        <input type="submit" value="Register">
+        <input type="reset" value="Clear">
         </div>
-    </header>
-    <div class="intro-container">
-        <img src="https://scontent.fmnl4-1.fna.fbcdn.net/v/t1.15752-9/419344017_748081277068761_3418924413746305816_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeH6so4VH7WXLBM1hqY54rXDGJJ6JmfrycUYknomZ-vJxbXkVaOk34nxu7xxumDwxevfSxXVaHzAS5nqLd9rq5b8&_nc_ohc=ZFlHPeXVx9IAX8UvlkS&_nc_ht=scontent.fmnl4-1.fna&oh=03_AdQrUmNh1IDr9mJv8Dj_ui7CMsYuPPSttrO81Tz_AVf2OA&oe=66211C9F" width="1000px" alt="Your Image">
-        <div class="container">
-            <h2>Introduction</h2>
-            <p>Welcome to my website! I'm <span class="highlighted-name"><b>Liam Francis Dayne C. Espineda</b></span>, a 20 year old student programmer passionate about coding and technology. I am based here in Valenzuela City and currently residing at Barangay Malinta. I am currently a second year Bachelor of Science In Computer Science student at St. Louis College Valenzuela.</p>
-        </div>
+
+      </form>
+      <div class="error-message" id="registration-error"></div>
     </div>
-    <div class="container">
-        <h2>Hobbies</h2>
-        <p>I like to play basketball and I spend a lot of my time gaming and playing video games. The game I like the most is <span class="highlighted-name"> Valorant. </span> Valorant is a FPS game made using C++ programming language.
+
+    <div class="form-container">
+      <h2>Login Form</h2>
+      <form id="login-form">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email" name="login-email" required>
+
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="login-password" required>
+
+        <input type="submit" value="Login">
+      </form>
+      <div class="error-message" id="login-error"></div>
     </div>
-    <div class="container">
-        <h2>My credential(s) as a gamer</h2>
-        <p>My peak at Valorant. <span class="highlighted-name2">Ascendant</span> 1. At this rank or elo, you are two ranks away of being one of the best players out there. </p>
-        <img src="https://scontent.fmnl25-3.fna.fbcdn.net/v/t1.15752-9/312926590_687550909760840_438888604961508619_n.png?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=V6cE6gWB1OcAX8omjMj&_nc_ht=scontent.fmnl25-3.fna&oh=03_AdRcauZlA9JtVJEIBbpHIJQIaLQJap3x1ya4q-RyeTXMKw&oe=661A24C0" width="5000px" alt="Image 1">
-    </div>
-    <div class="container">
-        <h2>As a student programmer..</h2>
-        <p>At my first year being a CS student, I was able to make a functioning calculator using Visual Studio Code via forms. It has the basic operations of a calculator such as Addition, Substraction, Multiplication and Division. </p>
-        <img src="https://i.ytimg.com/vi/Xp4S4KMxYJA/maxresdefault.jpg" width= "5000px" alt="Image 2">
-    </div>
-    <div class="container">
-        <h2>As a student programmer..</h2>
-        <p>I was able to make a shop-like tab that works like a online shop where you can also purchase and checkout items. And it also has a admin function that can the creator use to manipulate what's inside the shop.</p>
-        <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/431319097_924086555825442_5581328872461280082_n.jpg?stp=dst-jpg_s403x403&_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeH5doNf91hYnWfBwJ5BBgZEE-yBWJasKNkT7IFYlqwo2bDzb4q--Xai40gnyrfT5C7_O--mXv8ps-ZZqmEfMFJP&_nc_ohc=Ti8ra_U-IZAAX-unXI2&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSh1bkjJZ33jke4DXx-Q7KEV861fwvn8ivyjupGxr-D1w&oe=661E300C" width="5000px" alt="Image 3">
-    </div>
-    <div class="container">
-        <h2>Experiences as a student programmer..</h2>
-        <p>Throughout my 1st and 2nd year which(I'm currently in) as a Computer Science Student, I am still convinced that there is a lot more to be knowledgeable about when it comes to computer programming. The innovation of computer do not stop, so we must as well learn everyday to develop much more efficient ways of computing.</p>
-    </div>
-    <div class="container">
-        <h2>Ending</h2>
-        <p>Thanks for visiting! Feel free to explore more about me and my work. And also check out our <a href="https://www.facebook.com/slcv.edu.ph" >School</a>.</p>
-    </div>
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Dayne Website. All rights reserved.</p>
-        </div>
-    </footer>
-    
-    <div class="social-buttons">
-        <a href="https://www.facebook.com/Liamfrancisdayneespineda/" class="link">Facebook</a>
-        <a href="https://www.instagram.com/francis.dayne23/?hl=en" class="link">Instagram</a>
-    </div>
+  </div>
 </body>
 </html>
